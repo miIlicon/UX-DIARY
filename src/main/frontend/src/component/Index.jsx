@@ -4,6 +4,7 @@ import { css } from "@emotion/react"
 import profile from '../images/profile.svg';
 import greenBubble from '../images/greenBubble.svg';
 import defaultBubble from '../images/defaultBubble.svg';
+import { Link } from "react-router-dom";
 
 
 const titleStyle = css`
@@ -103,7 +104,9 @@ export default function Index() {
         <Section>
             <Profile />
             <Title>김현우님 오늘의 하루는 어떠셨나요?</Title>
-            <Button>오늘의 일기 작성하기</Button>
+            <Link to="/create">
+                <Button>오늘의 일기 작성하기</Button>
+            </Link>
             <BubbleBox>
                 {totalBubble.map((item) => {
                     return (

@@ -152,7 +152,7 @@ export default function Complete() {
                 <Content>오늘은 아름다운 하루</Content>
             </InputBox>
 
-            <Button>게시글 게시하기</Button>
+            <Button>게시글 수정하기</Button>
         </Section>
     )
 }

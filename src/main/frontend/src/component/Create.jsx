@@ -2,6 +2,7 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
+import { Link } from 'react-router-dom';
 
 const titleStyle = css`
     font-size : 32px;
@@ -144,7 +145,9 @@ export default function Create() {
                 <SubTitle>오늘 하루의 기분</SubTitle>
                 <Input placeholder="오늘 당신의 기분은 어떠셨나요?"></Input>
             </InputBox>
-            <Button>게시글 게시하기</Button>
+            <Link to="/complete">
+                <Button>게시글 게시하기</Button>
+            </Link>
         </Section>
     )
 }
