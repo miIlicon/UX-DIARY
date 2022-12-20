@@ -12,5 +12,6 @@ public interface PostService {
     void createPost(Post post);
 
     void updatePost(Post post);
+
     void deletePost(long id);
 }

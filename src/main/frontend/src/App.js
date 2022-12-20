@@ -1,13 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Index from './component/Index.jsx';
+import GlobalStyles from './styles/GlobalStyles';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Hello, React
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <GlobalStyles />
+        <Routes>
+          <Route path='/' element={<Index />}></Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
