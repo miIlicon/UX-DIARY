@@ -1,8 +1,40 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react'
-import { css } from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
 import { Link } from 'react-router-dom';
+
+const fadeUp = keyframes`
+    0% {
+        transform : translateY(30px);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    70% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+        transform : none;
+`;
+
+const fadeLeft = keyframes`
+0% {
+    transform : translateX(30px);
+    opacity: 0;
+}
+50% {
+    opacity: 0.3;
+}
+70% {
+    opacity: 0.5;
+}
+100% {
+    opacity: 1;
+    transform : none;
+`;
 
 const titleStyle = css`
     font-size : 32px;
@@ -11,6 +43,7 @@ const titleStyle = css`
     width : 11.4em;
     margin-bottom : 0;
     margin-top : -0.5em;
+    animation : ${fadeLeft} 1s ease-in-out;
 `
 
 const buttonStyle = css`
@@ -27,6 +60,12 @@ const buttonStyle = css`
 
     cursor : pointer;
     box-shadow : 7px 7px 13px 0px #B7B8B7;
+    animation : ${fadeUp} 1.8s ease-in-out;
+    transition : 0.5s ease-in-out;
+
+    &:hover {
+        opacity : 70%;
+    }
 `
 
 const Section = ({ children }) => {
@@ -54,6 +93,7 @@ const Icon = () => {
     return (
         <img src={createIcon} css={css`
             margin-right : 19.5em;
+            animation : ${fadeLeft} 1s ease-in-out;
         `} />
     )
 }
@@ -106,6 +146,7 @@ const InputBox = ({ children }) => {
         display : flex;
         flex-direction : column;
         row-gap : 0.7em;
+        animation : ${fadeLeft} 1.4s ease-in-out;
     `}>
             {children}
         </div>

@@ -2,7 +2,6 @@
 import React from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
-import styled from '@emotion/styled'
 import { Link } from 'react-router-dom';
 
 const fadeUp = keyframes`
@@ -62,13 +61,12 @@ const buttonStyle = css`
     cursor : pointer;
     box-shadow : 7px 7px 13px 0px #B7B8B7;
     animation : ${fadeUp} 1.8s ease-in-out;
-    margin : 0;
     transition : 0.5s ease-in-out;
 
     &:hover {
         opacity : 70%;
     }
-    `
+`
 
 const Section = ({ children }) => {
     return (
@@ -118,15 +116,16 @@ const SubTitle = (props) => {
     )
 }
 
-const Content = (props) => {
+const Input = (props) => {
     return (
-        <p type="text" css={css`
+        <input type="text" css={css`
         font-size: 13px;
+        margin-top: 0.8em;
+        padding-left: 0;
         font-family : 'Pretendard-Medium';
+        border : 0;
         width : 26.21em;
         letter-spacing: -0.35px;
-        margin : 0;
-        color: #6D6D6D;
 
         &:focus {
             outline : none;
@@ -154,26 +153,8 @@ const InputBox = ({ children }) => {
     );
 }
 
-const UtilButton = styled(Button)`
-    margin : 0;
-    width : 9em;
-`;
+export default function Modify() {
 
-const ButtonBox = ({ children }) => {
-    return (
-        <div css={css`
-        display : flex;
-        column-gap : 1em;
-        width : 22.93em;
-        box-sizing : border-box;
-        margin-top : -1em;
-        `}>
-            {children}
-        </div>
-    )
-}
-
-export default function Complete() {
     const DateTime = new Date();
     const _Year = DateTime.getFullYear();
     const _Month = DateTime.getMonth();
@@ -185,6 +166,7 @@ export default function Complete() {
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
     }
+
     return (
         <Section>
             <Icon />
@@ -194,25 +176,19 @@ export default function Complete() {
             </Title>
             <InputBox>
                 <SubTitle>일기 제목</SubTitle>
-                <Content>오늘은 아름다운 하루</Content>
+                <Input placeholder="멋진 제목을 입력해주세요!"></Input>
             </InputBox>
             <InputBox>
                 <SubTitle>일기 내용</SubTitle>
-                <Content>오늘은 아름다운 하루</Content>
+                <Input placeholder="멋진 제목을 입력해주세요!"></Input>
             </InputBox>
             <InputBox>
                 <SubTitle>오늘 하루의 기분</SubTitle>
-                <Content>오늘은 아름다운 하루</Content>
+                <Input placeholder="오늘 당신의 기분은 어떠셨나요?"></Input>
             </InputBox>
-            <Link to="/">
-                <Button>돌아가기</Button>
+            <Link to="/complete">
+                <Button>게시글 수정하기</Button>
             </Link>
-            <ButtonBox>
-                <Link to="/modify">
-                    <UtilButton>수정하기</UtilButton>
-                </Link>
-                <UtilButton>삭제하기</UtilButton>
-            </ButtonBox>
         </Section>
     )
 }

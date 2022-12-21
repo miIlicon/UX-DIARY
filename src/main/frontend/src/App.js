@@ -5,6 +5,7 @@ import Index from './component/Index.jsx';
 import GlobalStyles from './styles/GlobalStyles';
 import Create from './component/Create';
 import Complete from './component/Complete';
+import Modify from './component/Modify';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/' element={<Index />}></Route>
           <Route path='/create' element={<Create />}></Route>
           <Route path='/complete' element={<Complete />}></Route>
+          <Route path='/modify' element={<Modify />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

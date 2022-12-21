@@ -1,17 +1,30 @@
 /** @jsxImportSource @emotion/react */
 
-import { css } from "@emotion/react"
+import { css, keyframes } from "@emotion/react"
 import profile from '../images/profile.svg';
 import greenBubble from '../images/greenBubble.svg';
 import defaultBubble from '../images/defaultBubble.svg';
 import { Link } from "react-router-dom";
 
+const fadeIn = keyframes`
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    70% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+`;
 
 const titleStyle = css`
     font-size : 24px;
     font-family : 'Pretendard-Bold';
     letter-spacing: -0.35px;
-    margin-top : 1em;
+    margin-bottom : 1.4em;
 `
 
 const buttonStyle = css`
@@ -28,6 +41,11 @@ const buttonStyle = css`
 
     cursor : pointer;
     box-shadow : 7px 7px 13px 0px #B7B8B7;
+    transition : 0.5s ease-in-out;
+
+    &:hover {
+        opacity : 70%;
+    }
 `
 
 const Section = ({ children }) => {
@@ -41,7 +59,8 @@ const Section = ({ children }) => {
                 display : flex;
                 flex-direction : column;
                 justify-content : center;
-                align-items: center;
+                align-items : center;
+                animation : ${fadeIn} 1s ease-in-out;
             `
         }>
             {children}
@@ -51,7 +70,9 @@ const Section = ({ children }) => {
 
 const Profile = () => {
     return (
-        <img src={profile} />
+        <img src={profile} css={css`
+            margin : 1em;
+        `} />
     )
 }
 
@@ -64,6 +85,14 @@ const Title = (props) => {
 const Button = (props) => {
     return (
         <button type="submit" css={buttonStyle} {...props} />
+    )
+}
+
+const Bubble = () => {
+    return (
+        <img src={defaultBubble} css={css`
+            filter : drop-shadow(2px 2px 3px #B7B8B7);
+        `} />
     )
 }
 
@@ -110,7 +139,7 @@ export default function Index() {
             <BubbleBox>
                 {totalBubble.map((item) => {
                     return (
-                        <img src={defaultBubble} />
+                        <Bubble />
                     );
                 })}
             </BubbleBox>
