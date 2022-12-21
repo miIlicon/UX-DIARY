@@ -29,7 +29,7 @@ public class Post {
     private String content;
 
     @Column
-    private String Feeling;
+    private String feeling;
 
     @Column
     private Boolean state;

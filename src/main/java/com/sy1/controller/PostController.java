@@ -1,5 +1,9 @@
 package com.sy1.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sy1.dto.Post;
@@ -8,9 +12,12 @@ import com.sy1.repository.PostRepository;
 import com.sy1.service.PostService;
 import org.json.simple.JSONObject;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -26,6 +33,7 @@ public class PostController {
     @PostMapping("post/register")
     public String registerPost(@RequestBody PostDto postDto){
         ModelMapper modelMapper = new ModelMapper();
+
         Post post = modelMapper.map(postDto, Post.class);
         postService.createPost(post);
 
@@ -44,49 +52,24 @@ public class PostController {
     @GetMapping("post/get")
     public String getPost(@RequestParam("id") String id_){
         long id = Long.parseLong(id_);
-        Post post = Post.class.cast(postRepository.findById(id));
-        //ModelMapper modelMapper = new ModelMapper();
-        //JsonObject json = modelMapper.map(post, JsonObject.class); // json매핑 테스트
-        //System.out.println(json);
+        Post post = postService.getPost(id);
 
-        JsonObject obj = new JsonObject();
-        obj.addProperty("id", post.getId());
-        obj.addProperty("title", post.getTitle());
-        obj.addProperty("content", post.getContent());
-        obj.addProperty("feeling", post.getFeeling());
-        obj.addProperty("date", post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd ")));
-        obj.addProperty("state",post.getState());
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(post);
 
-        return obj.toString();
+
+        return jsonString;
 
     }
     @GetMapping("post/getAll")
-    public String getPosts(){
+    public String getPosts() throws JsonProcessingException {
         List<Post> posts = postRepository.findAll();
 
-/*        ModelMapper modelMapper = new ModelMapper();
-        JsonArray ja = new JsonArray();
-        for (Post post: posts) {
-            JsonObject jsonObject = modelMapper.map(post, JsonObject.class); // json매핑 테스트
-            ja.add(jsonObject);
-        }
-        System.out.println(ja.toString());
-        */
+        Gson gson = new Gson();
 
+        String s = gson.toJson(posts);
 
-        JsonArray ja = new JsonArray();
-
-        for (Post post: posts) {
-            JsonObject obj = new JsonObject();
-            obj.addProperty("id", post.getId());
-            obj.addProperty("title", post.getTitle());
-            obj.addProperty("content", post.getContent());
-            obj.addProperty("feeling", post.getFeeling());
-            obj.addProperty("date", post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd ")));
-            obj.addProperty("state", post.getState());
-            ja.add(obj);
-        }
-        return ja.toString();
+        return s;
 
     }
     @DeleteMapping("post/delete")
