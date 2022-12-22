@@ -28,7 +28,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
-
     private final PostService postService;
 
     private final PostRepository postRepository;
@@ -76,7 +75,6 @@ public class PostController {
             System.out.println(m);
             if (m == month) {
                 jsonPost.add(post);
-
             }
         }
 

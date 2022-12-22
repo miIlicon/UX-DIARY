@@ -119,7 +119,7 @@ const BubbleBox = ({ children }) => {
 export default function Index() {
 
     useEffect(() => {
-        axios.get(`/post/getPostOfMonth?month=${1}`)
+        axios.get(`/post/getPostOfMonth?month=${13}`)
             .then((res) => {
                 console.log(res);
             })
