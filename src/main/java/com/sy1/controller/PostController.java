@@ -80,10 +80,10 @@ public class PostController {
             }
         }
 
-        Gson gson = new Gson();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String s = objectMapper.writeValueAsString(jsonPost);
 
-        String s = gson.toJson(jsonPost);
-        System.out.println("s :" + s);
         return s;
 
     }
