@@ -10,6 +10,7 @@ import com.sy1.dto.Post;
 import com.sy1.entity.PostDto;
 import com.sy1.repository.PostRepository;
 import com.sy1.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -24,13 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class PostController {
 
-    @Autowired
-    private PostService postService;
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostService postService;
+
+    private final PostRepository postRepository;
 
     @PutMapping("post/register") // 기존 데이터에 덮어쓰기 때문에 update와 로직 동일
     public String registerPost(@RequestBody PostDto postDto) {
