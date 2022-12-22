@@ -177,7 +177,7 @@ export default function Complete() {
     const DateTime = new Date();
     const _Year = DateTime.getFullYear();
     const _Month = DateTime.getMonth();
-    const _Date = DateTime.getDate() + 1;
+    const _Date = DateTime.getDate() - 1;
 
     const totalDate = new Date(_Year, _Month, 0).getDate();
     const totalBubble = [];

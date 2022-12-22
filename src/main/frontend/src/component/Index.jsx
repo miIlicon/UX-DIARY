@@ -5,6 +5,8 @@ import profile from '../images/profile.svg';
 import greenBubble from '../images/greenBubble.svg';
 import defaultBubble from '../images/defaultBubble.svg';
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 const fadeIn = keyframes`
     0% {
@@ -116,11 +118,18 @@ const BubbleBox = ({ children }) => {
 
 export default function Index() {
 
+    useEffect(() => {
+        axios.get(`/post/getPostOfMonth?month=${1}`)
+            .then((res) => {
+                console.log(res);
+            })
+    }, [])
+
 
     const DateTime = new Date();
     const _Year = DateTime.getFullYear();
     const _Month = DateTime.getMonth();
-    const _Date = DateTime.getDate() + 1;
+    const _Date = DateTime.getDate() - 1;
 
     const totalDate = new Date(_Year, _Month, 0).getDate();
     const totalBubble = [];

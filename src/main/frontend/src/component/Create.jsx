@@ -3,6 +3,8 @@ import React from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 const fadeUp = keyframes`
     0% {
@@ -37,7 +39,7 @@ const fadeLeft = keyframes`
 `;
 
 const titleStyle = css`
-    font-size : 32px;
+    font-size : 32px;   
     font-family : 'Pretendard-Bold';
     letter-spacing: -0.02em;
     width : 11.4em;
@@ -155,16 +157,54 @@ const InputBox = ({ children }) => {
 
 export default function Create() {
 
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [emotion, setEmotion] = useState("");
+
     const DateTime = new Date();
     const _Year = DateTime.getFullYear();
     const _Month = DateTime.getMonth();
-    const _Date = DateTime.getDate() + 1;
+    const _Date = DateTime.getDate() - 1;
 
     const totalDate = new Date(_Year, _Month, 0).getDate();
     const totalBubble = [];
 
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
+    }
+
+    const handleChange = (event) => {
+        if (event.target.placeholder === "멋진 제목을 입력해주세요!") {
+            setTitle(event.target.value);
+        }
+
+        if (event.target.placeholder === "멋진 내용을 입력해주세요!") {
+            setContent(event.target.value);
+        }
+
+        if (event.target.placeholder === "오늘 당신의 기분은 어떠셨나요?") {
+            setEmotion(event.target.value);
+        }
+    }
+
+    const handleSubmit = () => {
+        axios.post(`/post/register`, JSON.stringify({
+            title: title,
+            content: content,
+            feeling: emotion,
+        }),
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            },
+        )
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log("에러 발생,,");
+            })
     }
 
     return (
@@ -176,19 +216,17 @@ export default function Create() {
             </Title>
             <InputBox>
                 <SubTitle>일기 제목</SubTitle>
-                <Input placeholder="멋진 제목을 입력해주세요!"></Input>
+                <Input placeholder="멋진 제목을 입력해주세요!" onChange={handleChange} value={title}></Input>
             </InputBox>
             <InputBox>
                 <SubTitle>일기 내용</SubTitle>
-                <Input placeholder="멋진 제목을 입력해주세요!"></Input>
+                <Input placeholder="멋진 내용을 입력해주세요!" onChange={handleChange} value={content}></Input>
             </InputBox>
             <InputBox>
                 <SubTitle>오늘 하루의 기분</SubTitle>
-                <Input placeholder="오늘 당신의 기분은 어떠셨나요?"></Input>
+                <Input placeholder="오늘 당신의 기분은 어떠셨나요?" onChange={handleChange} value={emotion}></Input>
             </InputBox>
-            <Link to="/complete">
-                <Button>게시글 게시하기</Button>
-            </Link>
+            <Button onClick={handleSubmit}>게시글 게시하기</Button>
         </Section>
     )
 }
