@@ -52,12 +52,13 @@ public class PostController {
     }
 
     @GetMapping("post/getPostOfDay")
-    public String getPost(@RequestParam("id") String id_) {
+    public String getPost(@RequestParam("id") String id_) throws JsonProcessingException {
         long id = Long.parseLong(id_);
         Post post = postService.getPost(id);
 
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(post);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String jsonString = objectMapper.writeValueAsString(post);
 
         return jsonString;
 
