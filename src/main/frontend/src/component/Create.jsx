@@ -2,9 +2,11 @@
 import React from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import useMonth from '../useHooks/useMonth';
 
 const fadeUp = keyframes`
     0% {
@@ -163,11 +165,15 @@ export default function Create() {
 
     const DateTime = new Date();
     const _Year = DateTime.getFullYear();
-    const _Month = DateTime.getMonth();
-    const _Date = DateTime.getDate() - 1;
+    const _Month = DateTime.getMonth() + 1;
+    const _Date = DateTime.getDate();
+
+    const array = useMonth(_Month);
 
     const totalDate = new Date(_Year, _Month, 0).getDate();
     const totalBubble = [];
+
+    const navigate = useNavigate();
 
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
@@ -188,23 +194,28 @@ export default function Create() {
     }
 
     const handleSubmit = () => {
-        axios.post(`/post/register`, JSON.stringify({
-            title: title,
-            content: content,
-            feeling: emotion,
-        }),
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            },
-        )
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((error) => {
-                console.log("에러 발생,,");
-            })
+        if (window.confirm("게시물을 작성할까요?")) {
+            axios.put(`/post/register`, JSON.stringify({
+                id: array[_Date - 1].id,
+                title: title,
+                content: content,
+                feeling: emotion,
+                date: `${_Year}-${_Month}-${_Date}`,
+                state: true,
+            }),
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                },
+            )
+                .then((res) => {
+                    navigate('/');
+                })
+                .catch((error) => {
+                    console.log("에러 발생,,");
+                })
+        }
     }
 
     return (
