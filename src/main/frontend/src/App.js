@@ -15,8 +15,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Index />}></Route>
           <Route path='/create' element={<Create />}></Route>
-          <Route path='/complete' element={<Complete />}></Route>
-          <Route path='/modify' element={<Modify />}></Route>
+          <Route path='/complete/:DiaryId' element={<Complete />}></Route>
+          <Route path='/modify/:DiaryId' element={<Modify />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

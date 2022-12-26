@@ -3,7 +3,10 @@ import React from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
 import styled from '@emotion/styled'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
 
 const fadeUp = keyframes`
     0% {
@@ -174,44 +177,87 @@ const ButtonBox = ({ children }) => {
 }
 
 export default function Complete() {
-    const DateTime = new Date();
-    const _Year = DateTime.getFullYear();
-    const _Month = DateTime.getMonth();
-    const _Date = DateTime.getDate() - 1;
+    const { DiaryId } = useParams();
+    const [year, setYear] = useState("");
+    const [month, setMonth] = useState("");
+    const [day, setDay] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [emotion, setEmotion] = useState("");
+    const navigate = useNavigate();
+    // console.log(DiaryId);
 
-    const totalDate = new Date(_Year, _Month, 0).getDate();
-    const totalBubble = [];
+    useEffect(() => {
+        axios.get(`/post/getPostOfDay?id=${DiaryId}`)
+            .then((res) => {
+                // console.log(res);
+                const test = res.data.date.split("-");
+                setYear(() => {
+                    return test[0];
+                });
+                setMonth(() => {
+                    return test[1];
+                })
+                setDay(() => {
+                    return test[2];
+                })
 
-    for (let i = 1; i <= totalDate; i++) {
-        totalBubble.push({ id: i, data: 0 });
+                setTitle(() => {
+                    return res.data.title;
+                })
+
+                setContent(() => {
+                    return res.data.content;
+                })
+
+                setEmotion(() => {
+                    return res.data.feeling;
+                })
+            })
+    }, []);
+
+    const handleDelete = () => {
+        if (window.confirm("정말로 삭제하시겠어요?")) {
+            axios.delete(`/post/delete/?id=${DiaryId}`)
+                .then((res) => {
+                    navigate('/');
+                })
+        }
     }
+
+    const handleModify = () => {
+        if (window.confirm("게시물을 수정하러갈까요?")) {
+            navigate(`/modify/:DiaryId`);
+        }
+    }
+
     return (
         <Section>
             <Icon />
             <Title>
-                {`${_Year}년 ${_Month}월 ${_Date}일`} <br />
+                {`${year}년 ${month}월 ${day}일`} <br />
                 오늘의 일기
             </Title>
             <InputBox>
                 <SubTitle>일기 제목</SubTitle>
-                <Content>오늘은 아름다운 하루</Content>
+                <Content>{title}</Content>
             </InputBox>
             <InputBox>
                 <SubTitle>일기 내용</SubTitle>
-                <Content>오늘은 아름다운 하루</Content>
+                <Content>{content}</Content>
             </InputBox>
             <InputBox>
                 <SubTitle>오늘 하루의 기분</SubTitle>
-                <Content>오늘은 아름다운 하루</Content>
+                <Content>{emotion}</Content>
             </InputBox>
             <Link to="/">
                 <Button>돌아가기</Button>
             </Link>
             <ButtonBox>
-                <Link to="/modify">
-                    <UtilButton>수정하기</UtilButton>
+                <Link to={`/modify/${DiaryId}`}>
+                    <UtilButton onClick={handleModify}>수정하기</UtilButton>
                 </Link>
-                <UtilButton>삭제하기</UtilButton>
+                <UtilButton onClick={handleDelete}>삭제하기</UtilButton>
             </ButtonBox>
         </Section>
     )
