@@ -1,6 +1,6 @@
 package com.sy1.service;
 
-import com.sy1.dto.Post;
+import com.sy1.entity.Post;
 
 import java.util.List;
 

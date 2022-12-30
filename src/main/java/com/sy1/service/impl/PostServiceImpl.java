@@ -1,13 +1,12 @@
 package com.sy1.service.impl;
 
-import com.sy1.dto.Post;
+import com.sy1.entity.Post;
 import com.sy1.repository.PostRepository;
 import com.sy1.service.PostService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

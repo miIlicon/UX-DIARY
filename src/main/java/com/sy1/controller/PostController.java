@@ -3,23 +3,14 @@ package com.sy1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.sy1.dto.Post;
-import com.sy1.entity.PostDto;
+import com.sy1.entity.Post;
+import com.sy1.dto.PostDTO;
 import com.sy1.repository.PostRepository;
 import com.sy1.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +26,7 @@ public class PostController {
 
     private final ObjectMapper objectMapper;
     @PutMapping("post/register") // 기존 데이터에 덮어쓰기 때문에 update와 로직 동일
-    public String registerPost(@RequestBody PostDto postDto) {
+    public String registerPost(@RequestBody PostDTO postDto) {
 
 
         Post post = modelMapper.map(postDto, Post.class);
@@ -45,7 +36,7 @@ public class PostController {
     }
 
     @PutMapping("post/update")
-    public String updatePost(@RequestBody PostDto postDto) {
+    public String updatePost(@RequestBody PostDTO postDto) {
 
         Post post = modelMapper.map(postDto, Post.class);
         postService.updatePost(post);
@@ -67,7 +58,7 @@ public class PostController {
 
     @GetMapping("post/getPostOfMonth")
     public String getPosts(@RequestParam("month") String month_) throws JsonProcessingException {
-        System.out.println(month_);
+
         long month = Long.parseLong(month_);
         List<Post> posts = postRepository.findAll();
         List<Post> jsonPost = new ArrayList<>();

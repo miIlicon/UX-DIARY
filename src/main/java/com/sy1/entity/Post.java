@@ -1,4 +1,4 @@
-package com.sy1.dto;
+package com.sy1.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

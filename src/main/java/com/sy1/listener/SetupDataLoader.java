@@ -1,6 +1,6 @@
 package com.sy1.listener;
 
-import com.sy1.dto.Post;
+import com.sy1.entity.Post;
 import com.sy1.repository.PostRepository;
 import com.sy1.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {

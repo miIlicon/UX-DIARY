@@ -1,16 +1,13 @@
-package com.sy1.entity;
+package com.sy1.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
-public class PostDto {
+public class PostDTO {
 
     private long id;
 
