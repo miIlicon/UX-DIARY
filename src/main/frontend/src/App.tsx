@@ -7,6 +7,13 @@ import Create from './component/Create';
 import Complete from './component/Complete';
 import Modify from './component/Modify';
 
+export type WrapperProps = {
+  children?: React.ReactNode;
+  props?: React.ReactNode;
+  type?: "submit";
+  onClick?: () => void;
+}
+
 function App() {
   return (
     <BrowserRouter>

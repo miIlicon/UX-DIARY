@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
 import styled from '@emotion/styled'
@@ -7,6 +7,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { WrapperProps } from '../App';
+
+/* Type Alias로 해당 타입에 관련된 것들을 제한합니다 */
 
 const fadeUp = keyframes`
     0% {
@@ -73,7 +77,7 @@ const buttonStyle = css`
     }
     `
 
-const Section = ({ children }) => {
+const Section = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <section css={
             css`
@@ -94,22 +98,22 @@ const Section = ({ children }) => {
     )
 }
 
-const Icon = () => {
+const Icon = (): EmotionJSX.Element => {
     return (
-        <img src={createIcon} css={css`
+        <img alt="아이콘 이미지" src={createIcon} css={css`
             margin-right : 19.5em;
             animation : ${fadeLeft} 1s ease-in-out;
         `} />
     )
 }
 
-const Title = (props) => {
+const Title = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <p css={titleStyle} {...props} />
     )
 }
 
-const SubTitle = (props) => {
+const SubTitle = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <span css={css`
             font-size:14px;
@@ -121,9 +125,9 @@ const SubTitle = (props) => {
     )
 }
 
-const Content = (props) => {
+const Content = (props: WrapperProps): EmotionJSX.Element => {
     return (
-        <p type="text" css={css`
+        <p css={css`
         font-size: 13px;
         font-family : 'Pretendard-Medium';
         width : 26.21em;
@@ -138,13 +142,13 @@ const Content = (props) => {
     )
 }
 
-const Button = (props) => {
+const Button = (props: WrapperProps): EmotionJSX.Element => {
     return (
-        <button type="submit" css={buttonStyle} {...props} />
+        <button type="submit" css={buttonStyle} onClick={props.onClick} {...props} />
     )
 }
 
-const InputBox = ({ children }) => {
+const InputBox = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <div css={css`
         display : flex;
@@ -162,7 +166,7 @@ const UtilButton = styled(Button)`
     width : 9em;
 `;
 
-const ButtonBox = ({ children }) => {
+const ButtonBox = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <div css={css`
         display : flex;
@@ -177,13 +181,13 @@ const ButtonBox = ({ children }) => {
 }
 
 export default function Complete() {
-    const { DiaryId } = useParams();
-    const [year, setYear] = useState("");
-    const [month, setMonth] = useState("");
-    const [day, setDay] = useState("");
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [emotion, setEmotion] = useState("");
+    const { DiaryId } = useParams<{ DiaryId: string | undefined }>();
+    const [year, setYear] = useState<string>("");
+    const [month, setMonth] = useState<string>("");
+    const [day, setDay] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
+    const [content, setContent] = useState<string>("");
+    const [emotion, setEmotion] = useState<string>("");
     const navigate = useNavigate();
     // console.log(DiaryId);
 
@@ -216,7 +220,7 @@ export default function Complete() {
             })
     }, []);
 
-    const handleDelete = () => {
+    const handleDelete = (): void => {
         if (window.confirm("정말로 삭제하시겠어요?")) {
             axios.delete(`/post/delete/?id=${DiaryId}`)
                 .then((res) => {
@@ -225,7 +229,7 @@ export default function Complete() {
         }
     }
 
-    const handleModify = () => {
+    const handleModify = (): void => {
         if (window.confirm("게시물을 수정하러갈까요?")) {
             navigate(`/modify/:DiaryId`);
         }
