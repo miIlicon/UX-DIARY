@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode } from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
 import styled from '@emotion/styled'

@@ -5,10 +5,9 @@ import profile from '../images/profile.svg';
 import greenBubble from '../images/greenBubble.svg';
 import defaultBubble from '../images/defaultBubble.svg';
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
 import useMonth from "../useHooks/useMonth";
+import { Month } from "../useHooks/useMonth";
+import { WrapperProps } from "../App";
 
 const fadeIn = keyframes`
     0% {
@@ -52,7 +51,7 @@ const buttonStyle = css`
     }
 `
 
-const Section = ({ children }) => {
+const Section = ({ children }: WrapperProps) => {
     return (
         <section css={
             css`
@@ -74,27 +73,27 @@ const Section = ({ children }) => {
 
 const Profile = () => {
     return (
-        <img src={profile} css={css`
+        <img src={profile} alt="사용자 프로필" css={css`
             margin : 1em;
         `} />
     )
 }
 
-const Title = (props) => {
+const Title = (props: WrapperProps) => {
     return (
         <p css={titleStyle} {...props} />
     )
 }
 
-const Button = (props) => {
+const Button = (props: WrapperProps) => {
     return (
         <button type="submit" css={buttonStyle} {...props} />
     )
 }
 
-const Bubble = (props) => {
+const Bubble = (props: WrapperProps) => {
     return (
-        <img src={defaultBubble} css={css`
+        <img src={defaultBubble} alt="디폴트 버블" css={css`
             filter : drop-shadow(2px 2px 3px #B7B8B7);
             cursor : pointer;
         `} {...props} />
@@ -103,7 +102,7 @@ const Bubble = (props) => {
 
 const BubbleGreen = () => {
     return (
-        <img src={greenBubble} css={css`
+        <img src={greenBubble} alt="그린 버블" css={css`
             filter : drop-shadow(2px 2px 3px #09CE5B);
             cursor : pointer;
             margin-top : 3px;
@@ -111,7 +110,7 @@ const BubbleGreen = () => {
     )
 }
 
-const BubbleBox = ({ children }) => {
+const BubbleBox = ({ children }: WrapperProps) => {
     return (
         <div css={css`
             display : flex;
@@ -131,20 +130,18 @@ const BubbleBox = ({ children }) => {
 
 export default function Index() {
 
-    const DateTime = new Date();
-    const _Year = DateTime.getFullYear();
-    const _Month = DateTime.getMonth() + 1;
-    const _Date = DateTime.getDate();
-    const array = useMonth(_Month);
-    const navigate = useNavigate();
-    const totalDate = new Date(_Year, _Month, 0).getDate();
-    const totalBubble = [];
+    const DateTime: Date = new Date();
+    const _Year: number = DateTime.getFullYear();
+    const _Month: number = DateTime.getMonth() + 1;
+    const array: Month | any[] | any = useMonth(_Month);
+    const totalDate: number = new Date(_Year, _Month, 0).getDate();
+    const totalBubble: object[] = [];
 
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
     }
 
-    const bubbleCheck = () => {
+    const bubbleCheck = (): void => {
         alert("지난 일기는 작성을 할 수가 없어요!");
     }
 
@@ -156,7 +153,7 @@ export default function Index() {
                 <Button>오늘의 일기 작성하기</Button>
             </Link>
             <BubbleBox>
-                {array.map((item) => {
+                {array.map((item: any) => {
                     return (
                         item.state ?
                             <Link to={`/complete/${item.id}`} key={item.id}>

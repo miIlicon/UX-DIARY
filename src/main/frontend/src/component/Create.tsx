@@ -2,11 +2,13 @@
 import React from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
-import { Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useMonth from '../useHooks/useMonth';
+import { WrapperProps } from '../App';
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { Month } from '../useHooks/useMonth';
 
 const fadeUp = keyframes`
     0% {
@@ -72,7 +74,7 @@ const buttonStyle = css`
     }
 `
 
-const Section = ({ children }) => {
+const Section = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <section css={
             css`
@@ -93,22 +95,22 @@ const Section = ({ children }) => {
     )
 }
 
-const Icon = () => {
+const Icon = (): EmotionJSX.Element => {
     return (
-        <img src={createIcon} css={css`
+        <img alt="아이콘 이미지" src={createIcon} css={css`
             margin-right : 19.5em;
             animation : ${fadeLeft} 1s ease-in-out;
         `} />
     )
 }
 
-const Title = (props) => {
+const Title = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <p css={titleStyle} {...props} />
     )
 }
 
-const SubTitle = (props) => {
+const SubTitle = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <span css={css`
             font-size:14px;
@@ -116,11 +118,18 @@ const SubTitle = (props) => {
             color : #09CE5B;
             letter-spacing: -0.35px;
             width : 26.21em;
-        `}{...props} />
+        `}
+            {...props} />
     )
 }
 
-const Input = (props) => {
+interface InputType {
+    placeholder: string,
+    value: string,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+}
+
+const Input = (props: InputType): EmotionJSX.Element => {
     return (
         <input type="text" css={css`
         font-size: 13px;
@@ -134,17 +143,18 @@ const Input = (props) => {
         &:focus {
             outline : none;
         }
-        `}{...props} />
+        `}
+            {...props} />
     )
 }
 
-const Button = (props) => {
+const Button = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <button type="submit" css={buttonStyle} {...props} />
     )
 }
 
-const InputBox = ({ children }) => {
+const InputBox = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <div css={css`
         display : flex;
@@ -159,19 +169,20 @@ const InputBox = ({ children }) => {
 
 export default function Create() {
 
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [emotion, setEmotion] = useState("");
+    const [title, setTitle] = useState<string>("");
+    const [content, setContent] = useState<string>("");
+    const [emotion, setEmotion] = useState<string>("");
 
-    const DateTime = new Date();
-    const _Year = DateTime.getFullYear();
-    const _Month = DateTime.getMonth() + 1;
-    const _Date = DateTime.getDate();
+    const DateTime: Date = new Date();
+    const _Year: number = DateTime.getFullYear();
+    const _Month: number = DateTime.getMonth() + 1;
+    const _Date: number = DateTime.getDate();
 
-    const array = useMonth(_Month);
+    const array: Month | any[] = useMonth(_Month);
 
-    const totalDate = new Date(_Year, _Month, 0).getDate();
-    const totalBubble = [];
+    const totalDate: number = new Date(_Year, _Month, 0).getDate();
+
+    const totalBubble: object[] = [];
 
     const navigate = useNavigate();
 
@@ -179,7 +190,7 @@ export default function Create() {
         totalBubble.push({ id: i, data: 0 });
     }
 
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.placeholder === "멋진 제목을 입력해주세요!") {
             setTitle(event.target.value);
         }

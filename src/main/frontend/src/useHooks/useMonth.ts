@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-interface Month {
+export interface Month {
+    [index: number]: number;
     id: number,
     title: null | string,
     content: null | string,
@@ -11,9 +12,9 @@ interface Month {
 }
 
 /* 해당 달을 가져오는 커스텀 훅 */
-function useMonth(month: number): Month | never[] {
+function useMonth(month: number): Month | any[] {
 
-    const [bubble, setBubble] = useState<Month | never[]>([]);
+    const [bubble, setBubble] = useState<Month | any[]>([]);
 
     useEffect(() => {
         axios.get(`/post/getPostOfMonth?month=${month}`)

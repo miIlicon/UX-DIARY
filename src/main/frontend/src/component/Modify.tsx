@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react'
 import { css, keyframes } from '@emotion/react'
 import createIcon from '../images/createIcon.svg';
-import styled from '@emotion/styled'
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import { WrapperProps } from '../App';
 
 const fadeUp = keyframes`
     0% {
@@ -72,7 +71,7 @@ const buttonStyle = css`
     }
 `
 
-const Section = ({ children }) => {
+const Section = ({ children }: WrapperProps) => {
     return (
         <section css={
             css`
@@ -95,20 +94,20 @@ const Section = ({ children }) => {
 
 const Icon = () => {
     return (
-        <img src={createIcon} css={css`
+        <img src={createIcon} alt="아이콘" css={css`
             margin-right : 19.5em;
             animation : ${fadeLeft} 1s ease-in-out;
         `} />
     )
 }
 
-const Title = (props) => {
+const Title = (props: WrapperProps) => {
     return (
         <p css={titleStyle} {...props} />
     )
 }
 
-const SubTitle = (props) => {
+const SubTitle = (props: WrapperProps) => {
     return (
         <span css={css`
             font-size:14px;
@@ -120,7 +119,7 @@ const SubTitle = (props) => {
     )
 }
 
-const Input = (props) => {
+const Input = (props: WrapperProps) => {
     return (
         <input type="text" css={css`
         font-size: 13px;
@@ -138,13 +137,13 @@ const Input = (props) => {
     )
 }
 
-const Button = (props) => {
+const Button = (props: WrapperProps) => {
     return (
         <button type="submit" css={buttonStyle} {...props} />
     )
 }
 
-const InputBox = ({ children }) => {
+const InputBox = ({ children }: WrapperProps) => {
     return (
         <div css={css`
         display : flex;
@@ -158,16 +157,15 @@ const InputBox = ({ children }) => {
 }
 
 export default function Modify() {
-    const { DiaryId } = useParams();
-    const [year, setYear] = useState("");
-    const [month, setMonth] = useState("");
-    const [date, setDate] = useState("");
-    const [day, setDay] = useState("");
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [emotion, setEmotion] = useState("");
+    const { DiaryId } = useParams<string>();
+    const [year, setYear] = useState<string>("");
+    const [month, setMonth] = useState<string>("");
+    const [date, setDate] = useState<string>("");
+    const [day, setDay] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
+    const [content, setContent] = useState<string>("");
+    const [emotion, setEmotion] = useState<string>("");
     const navigate = useNavigate();
-    // console.log(DiaryId);
 
     useEffect(() => {
         axios.get(`/post/getPostOfDay?id=${DiaryId}`)

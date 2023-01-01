@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Index from './component/Index.jsx';
+import Index from './component/Index';
 import GlobalStyles from './styles/GlobalStyles';
 import Create from './component/Create';
 import Complete from './component/Complete';
@@ -12,6 +11,8 @@ export type WrapperProps = {
   props?: React.ReactNode;
   type?: "submit";
   onClick?: () => void;
+  placeholder?: string;
+  value?: string;
 }
 
 function App() {
