@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export interface Month {
     [index: number]: number;
@@ -21,9 +22,10 @@ function useMonth(month: number): Month | any[] {
     const [test, setTest] = useState(() => {
         return localStorage.getItem('test');
     })
+    const navigate = useNavigate();
 
-    console.log(token);
-    console.log(test);
+    // console.log(token);
+    // console.log(test);
 
     useEffect(() => {
         axios.get(`/post/getPostOfMonth?month=${month}`,
@@ -36,6 +38,10 @@ function useMonth(month: number): Month | any[] {
                 setBubble(() => {
                     return res.data
                 });
+            })
+            .catch((e) => {
+                alert("로그인을 해주세요!");
+                navigate('/login');
             })
     }, [])
 
