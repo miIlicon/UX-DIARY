@@ -40,6 +40,7 @@ function useMonth(month: number): Month | any[] {
                 });
             })
             .catch((e) => {
+                console.log(e);
                 alert("로그인을 해주세요!");
                 navigate('/login');
             })

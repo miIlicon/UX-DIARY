@@ -136,6 +136,7 @@ export default function Index() {
     const array: Month | any[] | any = useMonth(_Month);
     const totalDate: number = new Date(_Year, _Month, 0).getDate();
     const totalBubble: object[] = [];
+    const navigate = useNavigate();
 
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
@@ -143,6 +144,14 @@ export default function Index() {
 
     const bubbleCheck = (): void => {
         alert("지난 일기는 작성을 할 수가 없어요!");
+    }
+
+    function Logout() {
+        if (window.confirm("정말 로그아웃 하시겠어요?")) {
+            navigate('/login');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+        }
     }
 
     return (
@@ -163,6 +172,7 @@ export default function Index() {
                     );
                 })}
             </BubbleBox>
+            <button onClick={Logout}>로그아웃</button>
         </Section>
     )
 }
