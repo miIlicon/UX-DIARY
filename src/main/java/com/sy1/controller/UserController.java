@@ -1,5 +1,6 @@
 package com.sy1.controller;
 
+import com.sy1.dto.TokenInfo;
 import com.sy1.dto.UserDTO;
 import com.sy1.entity.User;
 import com.sy1.service.UserService;
@@ -20,5 +21,12 @@ public class UserController {
     {
         User user = modelMapper.map(userDTO, User.class);
         return userService.signup(user);
+    }
+    @PostMapping("user/login")
+    public TokenInfo login(@RequestBody UserDTO userDto) {
+        String memberId = userDto.getEmail();
+        String password = userDto.getPassword();
+        TokenInfo tokenInfo = userService.login(memberId, password);
+        return tokenInfo;
     }
 }
