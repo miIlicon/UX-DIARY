@@ -15,9 +15,23 @@ export interface Month {
 function useMonth(month: number): Month | any[] {
 
     const [bubble, setBubble] = useState<Month | any[]>([]);
+    const [token, setToken] = useState(() => {
+        return localStorage.getItem('accessToken');
+    })
+    const [test, setTest] = useState(() => {
+        return localStorage.getItem('test');
+    })
+
+    console.log(token);
+    console.log(test);
 
     useEffect(() => {
-        axios.get(`/post/getPostOfMonth?month=${month}`)
+        axios.get(`/post/getPostOfMonth?month=${month}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
             .then((res) => {
                 setBubble(() => {
                     return res.data

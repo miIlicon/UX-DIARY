@@ -5,6 +5,8 @@ import GlobalStyles from './styles/GlobalStyles';
 import Create from './component/Create';
 import Complete from './component/Complete';
 import Modify from './component/Modify';
+import Signup from './component/user/Signup';
+import Login from './component/user/Login';
 
 export type WrapperProps = {
   children?: React.ReactNode;
@@ -25,6 +27,8 @@ function App() {
           <Route path='/create' element={<Create />}></Route>
           <Route path='/complete/:DiaryId' element={<Complete />}></Route>
           <Route path='/modify/:DiaryId' element={<Modify />}></Route>
+          <Route path='/signup' element={<Signup />}></Route>
+          <Route path='/login' element={<Login/>}></Route>
         </Routes>
       </div>
     </BrowserRouter>
