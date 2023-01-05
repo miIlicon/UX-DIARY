@@ -1,6 +1,6 @@
 
 
-https://user-images.githubusercontent.com/19422885/209170448-42f81f28-0326-4016-a2b9-b1aa5a52fabc.mov
+https://member-images.githubusercontent.com/19422885/209170448-42f81f28-0326-4016-a2b9-b1aa5a52fabc.mov
 
 ```Axios통신과 Rest API 통신을 위한 CRUD 구현을 위해 Spring Boot와 React.js를 이용하여 일기 다이어리를 만들었어요 👏🏻```
 

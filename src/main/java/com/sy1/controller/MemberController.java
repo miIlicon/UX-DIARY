@@ -1,8 +1,8 @@
 package com.sy1.controller;
 
 import com.sy1.dto.TokenInfo;
-import com.sy1.dto.UserDTO;
-import com.sy1.entity.User;
+import com.sy1.dto.MemberDTO;
+import com.sy1.entity.Member;
 import com.sy1.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -12,21 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class MemberController {
     private final UserService userService;
     private final ModelMapper  modelMapper;
 
     @PostMapping("user/signup")
-    public String signup(@RequestBody UserDTO userDTO)
+    public String signup(@RequestBody MemberDTO memberDTO)
     {
-        User user = modelMapper.map(userDTO, User.class);
-        return userService.signup(user);
+        Member member = modelMapper.map(memberDTO, Member.class);
+        return userService.signup(member);
     }
     @PostMapping("user/login")
-    public TokenInfo login(@RequestBody UserDTO userDto) {
-        String memberId = userDto.getEmail();
-        String password = userDto.getPassword();
+    public TokenInfo login(@RequestBody MemberDTO memberDto) {
+        String memberId = memberDto.getEmail();
+        String password = memberDto.getPassword();
         TokenInfo tokenInfo = userService.login(memberId, password);
         return tokenInfo;
+    }
+    @PostMapping("/user/test")
+    public String test(){
+        return "success";
     }
 }

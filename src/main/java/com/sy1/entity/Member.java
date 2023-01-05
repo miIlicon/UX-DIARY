@@ -17,10 +17,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements UserDetails {
+public class Member implements UserDetails {
     @Id
     @GeneratedValue
-    private long userId;
+    private long memberId;
 
     @Column(nullable = false)
     private String email;

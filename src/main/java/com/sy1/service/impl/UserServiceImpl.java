@@ -2,9 +2,9 @@ package com.sy1.service.impl;
 
 
 import com.sy1.dto.TokenInfo;
-import com.sy1.entity.User;
+import com.sy1.entity.Member;
 import com.sy1.provider.JwtTokenProvider;
-import com.sy1.repository.UserRepository;
+import com.sy1.repository.MemberRepository;
 import com.sy1.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,24 +16,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public String signup(User user) {
-        if (userRepository.existsByEmail(user.getEmail()))
+    public String signup(Member member) {
+        if (memberRepository.existsByEmail(member.getEmail()))
         {
             return "fail";
         }
-        userRepository.save(user);
+        member.getRoles().add("USER");
+        memberRepository.save(member);
         return "success";
     }
 
     @Override
     public TokenInfo login(String email, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+        // 인증객체 생성 (authenticated 값은 false)
         Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 실제 인증 과정으로 authenticate실행 시 CustomUserDetailsService의 loadByUserName실행
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authenticate);
         return tokenInfo;
     }
