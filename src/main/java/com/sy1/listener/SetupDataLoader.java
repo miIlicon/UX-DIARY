@@ -31,7 +31,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     private void setupData() {
-        int year = 2022;
+        int year = 2023;
         for(int month = 1; month <= 12; month++){
             for (int day = 1; day <= getDate(year,month); day++){
                 LocalDate localDate = LocalDate.of(year, month, day);
