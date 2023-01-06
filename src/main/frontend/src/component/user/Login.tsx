@@ -1,6 +1,15 @@
-import React, { useState } from 'react'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+/** @jsxImportSource @emotion/react */
+
+import React, { ReactNode, useRef } from 'react'
+import { css, keyframes } from '@emotion/react'
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { SubTitle } from '../Complete';
+import { InputBox } from '../Complete';
+import { Button, Section } from '../Create';
+import { SignUpArea, Input } from './Signup';
 
 export default function Login() {
     const [id, setId] = useState<string>("");
@@ -8,10 +17,10 @@ export default function Login() {
     const navigate = useNavigate();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.placeholder === "아이디") {
+        if (event.target.name === "아이디") {
             setId(event.target.value);
         }
-        if (event.target.placeholder === "비밀번호") {
+        if (event.target.name === "비밀번호") {
             setPw(event.target.value);
         }
     }
@@ -52,9 +61,19 @@ export default function Login() {
 
     return (
         <>
-            <input placeholder='아이디' value={id} onChange={handleChange} />
-            <input placeholder='비밀번호' value={pw} onChange={handleChange} />
-            <button onClick={handleSubmit}>로그인</button>
+            <Section>
+                <SignUpArea>
+                    <InputBox>
+                        <SubTitle>사용자 이메일</SubTitle>
+                        <Input name="아이디" placeholder='사용할 이메일을 입력해주세요' value={id} onChange={handleChange} />
+                    </InputBox>
+                    <InputBox>
+                        <SubTitle>사용자 비밀번호</SubTitle>
+                        <Input name="비밀번호" placeholder='사용할 비밀번호를 입력해주세요' value={pw} onChange={handleChange} />
+                    </InputBox>
+                    <Button onClick={handleSubmit}>로그안</Button>
+                </SignUpArea>
+            </Section>
         </>
     )
 }

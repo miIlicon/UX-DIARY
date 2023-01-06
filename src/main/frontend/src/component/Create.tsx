@@ -74,7 +74,7 @@ const buttonStyle = css`
     }
 `
 
-const Section = ({ children }: WrapperProps): EmotionJSX.Element => {
+export const Section = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <section css={
             css`
@@ -148,7 +148,7 @@ const Input = (props: InputType): EmotionJSX.Element => {
     )
 }
 
-const Button = (props: WrapperProps): EmotionJSX.Element => {
+export const Button = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <button type="submit" css={buttonStyle} {...props} />
     )

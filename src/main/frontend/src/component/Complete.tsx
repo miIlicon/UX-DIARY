@@ -112,7 +112,7 @@ const Title = (props: WrapperProps): EmotionJSX.Element => {
     )
 }
 
-const SubTitle = (props: WrapperProps): EmotionJSX.Element => {
+export const SubTitle = (props: WrapperProps): EmotionJSX.Element => {
     return (
         <span css={css`
             font-size:14px;
@@ -147,7 +147,7 @@ const Button = (props: WrapperProps): EmotionJSX.Element => {
     )
 }
 
-const InputBox = ({ children }: WrapperProps): EmotionJSX.Element => {
+export const InputBox = ({ children }: WrapperProps): EmotionJSX.Element => {
     return (
         <div css={css`
         display : flex;
