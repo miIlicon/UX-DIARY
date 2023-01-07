@@ -169,7 +169,7 @@ export default function Index() {
             .catch((error) => {
                 alert("이름을 불러오는데 실패했어요!")
             })
-    })
+    }, [])
 
     return (
         <Section>
