@@ -29,7 +29,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getTodosPost(Member member, int month) {
+    public List<Post> getTodoPosts(Member member, int month) {
         Specification<Post> spec = Specification.where(PostSpecification.equalMember(member));
         spec = spec.and(PostSpecification.equalMonth(month));
 

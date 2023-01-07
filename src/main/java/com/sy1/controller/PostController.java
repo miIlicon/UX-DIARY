@@ -12,11 +12,13 @@ import com.sy1.repository.specification.PostSpecification;
 import com.sy1.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,42 +62,20 @@ public class PostController {
 
     }
 
+
     @GetMapping("post/getPostOfMonth")
-    public String getPosts(@RequestParam("month") String month_) throws JsonProcessingException {
+    public String getPostsByMemberIdAndMonth(@RequestParam("month") int month) throws JsonProcessingException {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        long month = Long.parseLong(month_);
-        List<Post> posts = postRepository.findAll();
-        List<Post> jsonPost = new ArrayList<>();
-
-        for (Post post : posts) {
-            long m = Long.parseLong(post.getDate().format(DateTimeFormatter.ofPattern("MM")));
-            System.out.println(m);
-            if (m == month) {
-                jsonPost.add(post);
-            }
-        }
-
-        objectMapper.registerModule(new JavaTimeModule());
-        String s = objectMapper.writeValueAsString(jsonPost);
-
-        return s;
-
-    }
-    @GetMapping("post/ByMemberIdAndMonth")
-    public String getPostsByMemberIdAndMonth(@RequestParam("id") String id, @RequestParam("month") int month) throws JsonProcessingException {
-        long memberId = Long.parseLong(id);
-        Member member = memberRepository.findById(memberId);
-
-        List<Post> posts = postService.getTodosPost(member, month);
+        Member member = memberRepository.findByEmail(name).orElse(null);
+        System.out.println(name);
+        List<Post> posts = postService.getTodoPosts(member, month);
 
 
         List<Post> jsonPost = new ArrayList<>();
 
         for (Post post : posts) {
-            System.out.println(post);
-
             jsonPost.add(post);
-
         }
 
 

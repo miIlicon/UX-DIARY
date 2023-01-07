@@ -42,8 +42,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private void setupData() {
         ArrayList<String> roles = new ArrayList<>();
         roles.add("USER");
-        Member member1 = createMemberIfNotFound("gkfktkrh153@naver.com", "1234", roles);
-        Member member2 = createMemberIfNotFound("gkfktkrh155@naver.com", "1234", roles);
+        Member member1 = createMemberIfNotFound("gkfktkrh153@naver.com","seungyong", "1234", roles);
+        Member member2 = createMemberIfNotFound("gkfktkrh155@naver.com", "seungyong","1234", roles);
 
         int year = 2023;
         for(int month = 1; month <= 12; month++){
@@ -67,10 +67,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         postService.createPost(post);
     }
     @Transactional
-    public Member createMemberIfNotFound(final String email, final String password, final List<String> roles) {
+    public Member createMemberIfNotFound(final String email, final String name, final String password, final List<String> roles) {
 
         Member member = Member.builder()
                 .email(email)
+                .name(name)
                 .password(password)
                 .roles(roles)
                 .build();

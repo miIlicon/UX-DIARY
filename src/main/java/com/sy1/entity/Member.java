@@ -23,6 +23,8 @@ public class Member implements UserDetails {
     private String email;
 
     @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
