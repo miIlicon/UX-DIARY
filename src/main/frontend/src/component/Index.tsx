@@ -167,18 +167,6 @@ export default function Index() {
         }
     }
 
-    const bubbleCheck = (): void => {
-        alert("지난 일기는 작성을 할 수가 없어요!");
-    }
-
-    function Logout() {
-        if (window.confirm("정말 로그아웃 하시겠어요?")) {
-            navigate('/login');
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-        }
-    }
-
     useEffect(() => {
         axios.get(`/user/name`, {
             headers: {
@@ -190,33 +178,26 @@ export default function Index() {
             })
     }, [])
 
+
     return (
         <Section>
             <Profile />
             <Title>{name}님 오늘의 하루는 어떠셨나요?</Title>
             <Link to="/create">
                 <Button>오늘의 일기 작성하기</Button>
-
-                return (
-                <Section>
-                    <Profile />
-                    <Title>{name}님 오늘의 하루는 어떠셨나요?</Title>
-                    <Link to="/create">
-                        <Button>오늘의 일기 작성하기</Button>
-                    </Link>
-                    <BubbleBox>
-                        {array.map((item: any) => {
-                            return item.state ? (
-                                <Link to={`/complete/${item.id}`} key={item.id}>
-                                    <BubbleGreen />
->>>>>>> 81973cde82f6b1a6e696e0544c108d31f20bcd02
-                                </Link>
-                            ) : (
-                                <Bubble onClick={bubbleCheck} />
-                            );
-                        })}
-                    </BubbleBox>
-                    <button onClick={Logout}>로그아웃</button>
-                </Section>
-                );
+            </Link>
+            <BubbleBox>
+                {array.map((item: any) => {
+                    return item.state ? (
+                        <Link to={`/complete/${item.id}`} key={item.id}>
+                            <BubbleGreen />
+                        </Link>
+                    ) : (
+                        <Bubble onClick={bubbleCheck} />
+                    );
+                })}
+            </BubbleBox>
+            <button onClick={Logout}>로그아웃</button>
+        </Section>
+    );
 }
