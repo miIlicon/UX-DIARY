@@ -1,8 +1,12 @@
 package com.sy1.listener;
 
+import com.sy1.entity.Member;
 import com.sy1.entity.Post;
+import com.sy1.repository.MemberRepository;
 import com.sy1.repository.PostRepository;
+import com.sy1.service.MemberService;
 import com.sy1.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -10,14 +14,19 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private PostService postService;
+    private final PostRepository postRepository;
+    private final PostService postService;
+
+    private final MemberRepository memberRepository;
+
+    private final MemberService memberService;
 
     private boolean alreadySetup = false;
     @Override
@@ -31,25 +40,45 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     private void setupData() {
+        ArrayList<String> roles = new ArrayList<>();
+        roles.add("USER");
+        Member member1 = createMemberIfNotFound("gkfktkrh153@naver.com", "1234", roles);
+        Member member2 = createMemberIfNotFound("gkfktkrh155@naver.com", "1234", roles);
+
         int year = 2023;
         for(int month = 1; month <= 12; month++){
             for (int day = 1; day <= getDate(year,month); day++){
                 LocalDate localDate = LocalDate.of(year, month, day);
-                createPostIfNotFound(false, localDate);
+                createPostIfNotFound(false, localDate, month, member1);
+                createPostIfNotFound(false, localDate, month, member2);
             }
         }
 
     }
     @Transactional
-    public void createPostIfNotFound(final Boolean state, final LocalDate localDate) {
+    public void createPostIfNotFound(final Boolean state, final LocalDate localDate, final int month, final Member member) {
         Post post = Post.builder()
                 .state(state)
                 .date(localDate)
+                .month(month)
+                .member(member)
                 .build();
 
         postService.createPost(post);
     }
+    @Transactional
+    public Member createMemberIfNotFound(final String email, final String password, final List<String> roles) {
 
+        Member member = Member.builder()
+                .email(email)
+                .password(password)
+                .roles(roles)
+                .build();
+
+
+        return memberRepository.save(member);
+
+    }
 
     private static boolean isLeapYear(int year) { // 윤년 계산
 

@@ -3,9 +3,12 @@ package com.sy1.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.sy1.entity.Member;
 import com.sy1.entity.Post;
 import com.sy1.dto.PostDTO;
+import com.sy1.repository.MemberRepository;
 import com.sy1.repository.PostRepository;
+import com.sy1.repository.specification.PostSpecification;
 import com.sy1.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,6 +28,7 @@ public class PostController {
     private final ModelMapper modelMapper;
 
     private final ObjectMapper objectMapper;
+    private final MemberRepository memberRepository;
     @PutMapping("post/register") // 기존 데이터에 덮어쓰기 때문에 update와 로직 동일
     public String registerPost(@RequestBody PostDTO postDto) {
 
@@ -70,6 +74,30 @@ public class PostController {
                 jsonPost.add(post);
             }
         }
+
+        objectMapper.registerModule(new JavaTimeModule());
+        String s = objectMapper.writeValueAsString(jsonPost);
+
+        return s;
+
+    }
+    @GetMapping("post/ByMemberIdAndMonth")
+    public String getPostsByMemberIdAndMonth(@RequestParam("id") String id, @RequestParam("month") int month) throws JsonProcessingException {
+        long memberId = Long.parseLong(id);
+        Member member = memberRepository.findById(memberId);
+
+        List<Post> posts = postService.getTodosPost(member, month);
+
+
+        List<Post> jsonPost = new ArrayList<>();
+
+        for (Post post : posts) {
+            System.out.println(post);
+
+            jsonPost.add(post);
+
+        }
+
 
         objectMapper.registerModule(new JavaTimeModule());
         String s = objectMapper.writeValueAsString(jsonPost);

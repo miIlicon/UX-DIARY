@@ -5,7 +5,7 @@ import com.sy1.dto.TokenInfo;
 import com.sy1.entity.Member;
 import com.sy1.provider.JwtTokenProvider;
 import com.sy1.repository.MemberRepository;
-import com.sy1.service.UserService;
+import com.sy1.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserServiceImpl implements UserService {
+public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -29,6 +29,9 @@ public class UserServiceImpl implements UserService {
         member.getRoles().add("USER");
         memberRepository.save(member);
         return "success";
+    }
+    public void createMember(Member member){
+        memberRepository.save(member);
     }
 
     @Override

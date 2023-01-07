@@ -1,13 +1,16 @@
 package com.sy1.service.impl;
 
+import com.sy1.entity.Member;
 import com.sy1.entity.Post;
 import com.sy1.repository.PostRepository;
+import com.sy1.repository.specification.PostSpecification;
 import com.sy1.service.PostService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +29,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getTodosPost() {
-        return postRepository.findAll(Sort.by(Sort.Order.asc("id")));
+    public List<Post> getTodosPost(Member member, int month) {
+        Specification<Post> spec = Specification.where(PostSpecification.equalMember(member));
+        spec = spec.and(PostSpecification.equalMonth(month));
+
+        return postRepository.findAll(spec);
+
+
     }
 
     @Override
