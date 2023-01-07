@@ -44,7 +44,11 @@ public class MemberController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Member member = memberRepository.findByEmail(name).orElse(null);
-        return member.getName();
+
+        JSONObject obj = new JSONObject();
+        obj.put("name", member.getName());
+        return obj.toString();
+
     }
 
     @PostMapping("/user/test")
