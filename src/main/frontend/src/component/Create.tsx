@@ -216,15 +216,17 @@ export default function Create() {
             }),
                 {
                     headers: {
-                        "Content-Type": "application/json"
-                    }
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem('access-token')}`
+                    },
                 },
             )
                 .then((res) => {
                     navigate('/');
                 })
                 .catch((error) => {
-                    console.log("에러 발생,,");
+
+                    console.log(`에러 발생,, ${error}`);
                 })
         }
     }

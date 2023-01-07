@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import useMonth from "../useHooks/useMonth";
 import { Month } from "../useHooks/useMonth";
 import { WrapperProps } from "../App";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const fadeIn = keyframes`
     0% {
@@ -137,6 +139,7 @@ export default function Index() {
     const totalDate: number = new Date(_Year, _Month, 0).getDate();
     const totalBubble: object[] = [];
     const navigate = useNavigate();
+    const [name, setName] = useState<string>("");
 
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
@@ -154,10 +157,24 @@ export default function Index() {
         }
     }
 
+    useEffect(() => {
+        axios.get(`/user/name`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
+            .then((res) => {
+                setName(res.data)
+            })
+            .catch((error) => {
+                alert("이름을 불러오는데 실패했어요!")
+            })
+    })
+
     return (
         <Section>
             <Profile />
-            <Title>김현우님 오늘의 하루는 어떠셨나요?</Title>
+            <Title>{name}님 오늘의 하루는 어떠셨나요?</Title>
             <Link to="/create">
                 <Button>오늘의 일기 작성하기</Button>
             </Link>

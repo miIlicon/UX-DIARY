@@ -10,11 +10,13 @@ import { SubTitle } from '../Complete';
 import { InputBox } from '../Complete';
 import { Button, Section } from '../Create';
 import { SignUpArea, Input } from './Signup';
+import { Cookies } from 'react-cookie';
 
 export default function Login() {
     const [id, setId] = useState<string>("");
     const [pw, setPw] = useState<string>("");
     const navigate = useNavigate();
+    const cookie = new Cookies;
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.name === "아이디") {
@@ -43,14 +45,15 @@ export default function Login() {
                 }
 
                 if (res.data.refreshToken) {
-                    localStorage.setItem('refreshToken', res.data.refreshToken);
+                    // localStorage.setItem('refreshToken', res.data.refreshToken);
+                    cookie.set('refreshToken', res.data.refreshToken);
                     console.log("리프레쉬 토큰 저장 완료!")
                 }
 
                 // console.log(res.data.accessToken);
                 // console.log(res.data.refreshToken);
                 localStorage.setItem('test', "hi");
-                axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`
+                // axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`
                 navigate('/');
             })
             .catch((e) => {

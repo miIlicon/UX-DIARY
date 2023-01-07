@@ -133,6 +133,7 @@ export default function Signup() {
         if (check === true) {
             if (window.confirm("회원가입을 하시겠어요?!")) {
                 axios.post(`/user/signup`, JSON.stringify({
+                    name: name,
                     email: id,
                     password: pw,
                 }),
@@ -143,8 +144,12 @@ export default function Signup() {
                     }
                 )
                     .then((res) => {
-                        console.log(res);
+                        alert("회원가입이 성공적으로 완료되었어요!")
                         navigate('/login');
+                    })
+                    .catch((error) => {
+                        alert("회원가입이 실패했어요!");
+                        console.log(error);
                     })
             }
         } else {
