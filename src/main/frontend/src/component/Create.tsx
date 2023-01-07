@@ -178,7 +178,7 @@ export default function Create() {
     const _Month: number = DateTime.getMonth() + 1;
     const _Date: number = DateTime.getDate();
 
-    const array: Month | any[] = useMonth(_Month);
+    const array: any = useMonth(_Month);
 
     const totalDate: number = new Date(_Year, _Month, 0).getDate();
 
@@ -189,6 +189,9 @@ export default function Create() {
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
     }
+
+    console.log(_Date);
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.placeholder === "멋진 제목을 입력해주세요!") {
@@ -204,6 +207,7 @@ export default function Create() {
         }
     }
 
+
     const handleSubmit = () => {
         if (window.confirm("게시물을 작성할까요?")) {
             axios.put(`/post/register`, JSON.stringify({
@@ -211,14 +215,14 @@ export default function Create() {
                 title: title,
                 content: content,
                 feeling: emotion,
-                date: `${_Year}-${_Month}-${_Date}`,
+                date: `${_Year}-0${_Month}-0${_Date}`,
                 state: true,
             }),
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem('access-token')}`
-                    },
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
                 },
             )
                 .then((res) => {
