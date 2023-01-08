@@ -22,11 +22,10 @@
   - ##### DELETE (DELETE)
 
 ##### 백엔드 스택
-- ##### Spring Boot
-  - ##### JSON Library
-    - ##### JSON데이터를 편하게 파싱하기 위해 사용했어요
-  - ##### Model Mapper
-    - ##### DTO와 Entity간의 효율적인 매핑을 위해 사용했어요
+- Spring Boot
+- JSON Library
+- Model Mapper
+
 
 ##### 프론트엔드 스택
 - ##### React.js
