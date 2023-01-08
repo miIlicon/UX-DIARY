@@ -67,7 +67,7 @@ public class PostController {
 
 
     @GetMapping("post/getPostOfMonth")
-    public String getPostsByMemberIdAndMonth(@RequestParam("month") int month) throws JsonProcessingException {
+    public JSONArray getPostsByMemberIdAndMonth(@RequestParam("month") int month) throws JsonProcessingException {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Member member = memberRepository.findByEmail(name).orElse(null);
@@ -97,7 +97,7 @@ public class PostController {
 
 
 
-        return ja.toString();
+        return ja;
 
     }
 
