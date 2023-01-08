@@ -35,9 +35,18 @@ public class PostController {
     private final MemberRepository memberRepository;
     @PutMapping("post/register") // 기존 데이터에 덮어쓰기 때문에 update와 로직 동일
     public String registerPost(@RequestBody PostDTO postDto) {
+        Post post = postRepository.findById(postDto.getId()).orElse(null);
 
 
-        Post post = modelMapper.map(postDto, Post.class);
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setState(postDto.getState());
+        post.setMonth(postDto.getMonth());
+        post.setDate(postDto.getDate());
+        post.setFeeling(postDto.getFeeling());
+        Member member = memberRepository.findById(postDto.getMemberId());
+        post.setMember(member);
+
 
         postService.updatePost(post);
 
@@ -47,7 +56,19 @@ public class PostController {
     @PutMapping("post/update")
     public String updatePost(@RequestBody PostDTO postDto) {
 
-        Post post = modelMapper.map(postDto, Post.class);
+        Post post = postRepository.findById(postDto.getId()).orElse(null);
+
+
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setState(postDto.getState());
+        post.setMonth(postDto.getMonth());
+        post.setDate(postDto.getDate());
+        post.setFeeling(postDto.getFeeling());
+        Member member = memberRepository.findById(postDto.getMemberId());
+        post.setMember(member);
+
+
         postService.updatePost(post);
 
         return "success";
@@ -67,7 +88,7 @@ public class PostController {
 
 
     @GetMapping("post/getPostOfMonth")
-    public JSONArray getPostsByMemberIdAndMonth(@RequestParam("month") int month) throws JsonProcessingException {
+    public JSONArray  getPostsByMemberIdAndMonth(@RequestParam("month") int month) throws JsonProcessingException {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Member member = memberRepository.findByEmail(name).orElse(null);
@@ -101,9 +122,23 @@ public class PostController {
 
     }
 
-    @DeleteMapping("post/delete")
-    public String deletePost(@RequestParam("id") String id_) {
-        postService.deletePost(Long.parseLong(id_));
+    @PutMapping("post/delete")
+    public String deletePost(@RequestBody PostDTO postDto) {
+
+        Post post = postRepository.findById(postDto.getId()).orElse(null);
+
+
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setState(postDto.getState());
+        post.setMonth(postDto.getMonth());
+        post.setDate(postDto.getDate());
+        post.setFeeling(postDto.getFeeling());
+        Member member = memberRepository.findById(postDto.getMemberId());
+        post.setMember(member);
+
+
+        postService.updatePost(post);
 
         return "success";
     }
