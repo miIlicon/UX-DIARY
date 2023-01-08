@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { WrapperProps } from '../App';
+import { InputType } from './Create';
 
 const fadeUp = keyframes`
     0% {
@@ -119,7 +120,7 @@ const SubTitle = (props: WrapperProps) => {
     )
 }
 
-const Input = (props: WrapperProps) => {
+const Input = (props: InputType) => {
     return (
         <input type="text" css={css`
         font-size: 13px;
@@ -165,12 +166,19 @@ export default function Modify() {
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [emotion, setEmotion] = useState<string>("");
+    const [sub_month, setSub_month] = useState<string>("");
+    const [memberId, setMemberId] = useState<string>("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/post/getPostOfDay?id=${DiaryId}`)
+        console.log("hi")
+        axios.get(`/post/getPostOfDay?id=${DiaryId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 setDate(() => {
                     return res.data.date;
                 })
@@ -196,6 +204,14 @@ export default function Modify() {
                 setEmotion(() => {
                     return res.data.feeling;
                 })
+
+                setSub_month(() => {
+                    return res.data.month;
+                })
+
+                setMemberId(() => {
+                    return res.data.memberId;
+                })
             })
     }, []);
 
@@ -205,17 +221,34 @@ export default function Modify() {
             title: title,
             content: content,
             feeling: emotion,
+            month: sub_month,
             date: date,
+            memberId: memberId,
             state: true,
         }), {
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             }
         })
             .then((res) => {
                 alert("수정이 완료되었어요!");
                 navigate("/");
             })
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.placeholder === "멋진 제목을 입력해주세요!") {
+            setTitle(event.target.value)
+        }
+
+        if (event.target.placeholder === "멋진 내용을 입력해주세요!") {
+            setContent(event.target.value)
+        }
+
+        if (event.target.placeholder === "오늘 당신의 기분은 어떠셨나요?") {
+            setEmotion(event.target.value)
+        }
     }
 
     return (
@@ -227,15 +260,15 @@ export default function Modify() {
             </Title>
             <InputBox>
                 <SubTitle>일기 제목</SubTitle>
-                <Input placeholder="멋진 제목을 입력해주세요!" value={title}></Input>
+                <Input placeholder="멋진 제목을 입력해주세요!" value={title} onChange={handleChange}></Input>
             </InputBox>
             <InputBox>
                 <SubTitle>일기 내용</SubTitle>
-                <Input placeholder="멋진 내용을 입력해주세요!" value={content}></Input>
+                <Input placeholder="멋진 내용을 입력해주세요!" value={content} onChange={handleChange}></Input>
             </InputBox>
             <InputBox>
                 <SubTitle>오늘 하루의 기분</SubTitle>
-                <Input placeholder="오늘 당신의 기분은 어떠셨나요?" value={emotion}></Input>
+                <Input placeholder="오늘 당신의 기분은 어떠셨나요?" value={emotion} onChange={handleChange}></Input>
             </InputBox>
             <Button onClick={handleModify}>게시글 수정하기</Button>
         </Section>

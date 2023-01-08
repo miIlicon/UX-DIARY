@@ -127,7 +127,7 @@ const SubTitle = (props: WrapperProps): EmotionJSX.Element => {
     );
 };
 
-interface InputType {
+export interface InputType {
     placeholder: string;
     value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -205,34 +205,39 @@ export default function Create() {
             setContent(event.target.value);
         }
 
-        const handleSubmit = () => {
-            console.log(array[_Date - 1].month, array[_Date - 1].memberId)
-            if (window.confirm("게시물을 작성할까요?")) {
-                axios.put(`/post/register`, JSON.stringify({
-                    id: array[_Date - 1].id,
-                    title: title,
-                    content: content,
-                    feeling: emotion,
-                    month: array[_Date - 1].month,
-                    date: array[_Date - 1].date,
-                    memberId: array[_Date - 1].memberId,
-                    state: true,
-                }),
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                        }
-                    },
-                )
-                    .then((res) => {
-                        navigate('/');
-                    })
-                    .catch((error) => {
-                        alert(`에러 발생,, ${error}`);
-                    })
-            }
+        if (event.target.placeholder === "오늘 당신의 기분은 어떠셨나요?") {
+            setEmotion(event.target.value);
         }
+    }
+
+    const handleSubmit = () => {
+        console.log(array[_Date - 1].month, array[_Date - 1].memberId)
+        if (window.confirm("게시물을 작성할까요?")) {
+            axios.put(`/post/register`, JSON.stringify({
+                id: array[_Date - 1].id,
+                title: title,
+                content: content,
+                feeling: emotion,
+                // month: array[_Date - 1].month,
+                date: array[_Date - 1].date,
+                memberId: array[_Date - 1].memberId,
+                state: true,
+            }),
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                },
+            )
+                .then((res) => {
+                    navigate('/');
+                })
+                .catch((error) => {
+                    alert(`에러 발생,, ${error}`);
+                })
+        }
+
         if (window.confirm("게시물을 작성할까요?")) {
             axios
                 .put(

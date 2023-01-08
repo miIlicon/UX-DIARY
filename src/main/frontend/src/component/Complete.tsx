@@ -187,11 +187,18 @@ export default function Complete() {
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [emotion, setEmotion] = useState<string>("");
+    const [sub_month, setSub_month] = useState<string>("");
+    const [memberId, setMemberId] = useState<string>("");
+    const [date, setDate] = useState<string>("");
     const navigate = useNavigate();
     // console.log(DiaryId);
 
     useEffect(() => {
-        axios.get(`/post/getPostOfDay?id=${DiaryId}`)
+        axios.get(`/post/getPostOfDay?id=${DiaryId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
             .then((res) => {
                 // console.log(res);
                 const test = res.data.date.split("-");
@@ -216,14 +223,43 @@ export default function Complete() {
                 setEmotion(() => {
                     return res.data.feeling;
                 })
+                setSub_month(() => {
+                    return res.data.month;
+                })
+
+                setMemberId(() => {
+                    return res.data.memberId;
+                })
+
+                setDate(() => {
+                    return res.data.date;
+                })
             })
     }, []);
 
     const handleDelete = (): void => {
         if (window.confirm("정말로 삭제하시겠어요?")) {
-            axios.delete(`/post/delete/?id=${DiaryId}`)
+            axios.put(`/post/delete/?id=${DiaryId}`, {
+                id: DiaryId,
+                title: "",
+                content: "",
+                feeling: "",
+                month: sub_month,
+                date: date,
+                memberId: memberId,
+                state: false,
+            },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                },
+            )
                 .then((res) => {
-                    navigate('/');
+                    if (window.confirm("정말로 삭제하시겠어요?")) {
+                        alert("삭제 완료!");
+                        navigate('/');
+                    }
                 })
         }
     }

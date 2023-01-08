@@ -28,24 +28,25 @@ function useMonth(month: number): Month | any[] {
     // console.log(test);
 
     useEffect(() => {
-        axios.get(`/post/getPostOfMonth?month=${month}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            .then((res) => {
-                console.log(res);
-                console.log(res.data);
-                setBubble(() => {
-                    return res.data
-                });
-            })
-            .catch((e) => {
-                console.log(e);
-                alert("로그인을 해주세요!");
-                navigate('/login');
-            })
+        if (localStorage.getItem('accessToken')) {
+            axios.get(`/post/getPostOfMonth?month=${month}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                })
+                .then((res) => {
+                    setBubble(() => {
+                        return res.data
+                    });
+                })
+                .catch((e) => {
+                    console.log(e);
+                    alert(`${e}에 관련된 에러가 발생했어요!`);
+                })
+        } else {
+            navigate('/login');
+        }
     }, [])
 
     return bubble;

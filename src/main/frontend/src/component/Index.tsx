@@ -10,6 +10,7 @@ import { Month } from "../useHooks/useMonth";
 import { WrapperProps } from "../App";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Cookies } from "react-cookie";
 
 const fadeIn = keyframes`
     0% {
@@ -54,9 +55,9 @@ const buttonStyle = css`
 `;
 
 const Section = ({ children }: WrapperProps) => {
-  return (
-    <section
-      css={css`
+    return (
+        <section
+            css={css`
         position: absolute;
         top: 50%;
         left: 50%;
@@ -67,64 +68,64 @@ const Section = ({ children }: WrapperProps) => {
         align-items: center;
         animation: ${fadeIn} 1s ease-in-out;
       `}
-    >
-      {children}
-    </section>
-  );
+        >
+            {children}
+        </section>
+    );
 };
 
 const Profile = () => {
-  return (
-    <img
-      src={profile}
-      alt="사용자 프로필"
-      css={css`
+    return (
+        <img
+            src={profile}
+            alt="사용자 프로필"
+            css={css`
         margin: 1em;
       `}
-    />
-  );
+        />
+    );
 };
 
 const Title = (props: WrapperProps) => {
-  return <p css={titleStyle} {...props} />;
+    return <p css={titleStyle} {...props} />;
 };
 
 const Button = (props: WrapperProps) => {
-  return <button type="submit" css={buttonStyle} {...props} />;
+    return <button type="submit" css={buttonStyle} {...props} />;
 };
 
 const Bubble = (props: WrapperProps) => {
-  return (
-    <img
-      src={defaultBubble}
-      alt="디폴트 버블"
-      css={css`
+    return (
+        <img
+            src={defaultBubble}
+            alt="디폴트 버블"
+            css={css`
         filter: drop-shadow(2px 2px 3px #b7b8b7);
         cursor: pointer;
       `}
-      {...props}
-    />
-  );
+            {...props}
+        />
+    );
 };
 
 const BubbleGreen = () => {
-  return (
-    <img
-      src={greenBubble}
-      alt="그린 버블"
-      css={css`
+    return (
+        <img
+            src={greenBubble}
+            alt="그린 버블"
+            css={css`
         filter: drop-shadow(2px 2px 3px #09ce5b);
         cursor: pointer;
         margin-top: 3px;
       `}
-    />
-  );
+        />
+    );
 };
 
 const BubbleBox = ({ children }: WrapperProps) => {
-  return (
-    <div
-      css={css`
+    return (
+        <div
+            css={css`
         display: flex;
         flex-wrap: wrap;
         justify-content: left;
@@ -135,73 +136,74 @@ const BubbleBox = ({ children }: WrapperProps) => {
         row-gap: 1em;
         margin-top: 5em;
       `}
-    >
-      {children}
-    </div>
-  );
+        >
+            {children}
+        </div>
+    );
 };
 
 export default function Index() {
-  const DateTime: Date = new Date();
-  const _Year: number = DateTime.getFullYear();
-  const _Month: number = DateTime.getMonth() + 1;
-  const array: Month | any = useMonth(_Month);
-  const totalDate: number = new Date(_Year, _Month, 0).getDate();
-  const totalBubble: object[] = [];
-  const navigate = useNavigate();
-  const [name, setName] = useState<string>("");
+    const DateTime: Date = new Date();
+    const _Year: number = DateTime.getFullYear();
+    const _Month: number = DateTime.getMonth() + 1;
+    const array: Month | any = useMonth(_Month);
+    const totalDate: number = new Date(_Year, _Month, 0).getDate();
+    const totalBubble: object[] = [];
+    const navigate = useNavigate();
+    const [name, setName] = useState<string>("");
+    const cookie = new Cookies;
 
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      axios
-        .get(`/user/name`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        .then((res) => {
-          setName(() => {
-            return res.data.name;
-          });
-        });
+    useEffect(() => {
+        if (localStorage.getItem("accessToken")) {
+            axios
+                .get(`/user/name`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    },
+                })
+                .then((res) => {
+                    setName(() => {
+                        return res.data.name;
+                    });
+                });
+        }
+    }, []);
+
+    for (let i = 1; i <= totalDate; i++) {
+        totalBubble.push({ id: i, data: 0 });
     }
-  }, []);
 
-  for (let i = 1; i <= totalDate; i++) {
-    totalBubble.push({ id: i, data: 0 });
-  }
+    const bubbleCheck = (): void => {
+        alert("지난 일기는 작성을 할 수가 없어요!");
+    };
 
-  const bubbleCheck = (): void => {
-    alert("지난 일기는 작성을 할 수가 없어요!");
-  };
-
-  function Logout() {
-    if (window.confirm("정말 로그아웃 하시겠어요?")) {
-      navigate("/login");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+    function Logout() {
+        if (window.confirm("정말 로그아웃 하시겠어요?")) {
+            navigate("/login");
+            localStorage.removeItem("accessToken");
+            cookie.remove('refreshToken')
+        }
     }
-  }
 
-  return (
-    <Section>
-      <Profile />
-      <Title>{name}님 오늘의 하루는 어떠셨나요?</Title>
-      <Link to="/create">
-        <Button>오늘의 일기 작성하기</Button>
-      </Link>
-      <BubbleBox>
-        {array.map((item: any) => {
-          return item.state ? (
-            <Link to={`/complete/${item.id}`} key={item.id}>
-              <BubbleGreen />
+    return (
+        <Section>
+            <Profile />
+            <Title>{name}님 오늘의 하루는 어떠셨나요?</Title>
+            <Link to="/create">
+                <Button>오늘의 일기 작성하기</Button>
             </Link>
-          ) : (
-            <Bubble onClick={bubbleCheck} />
-          );
-        })}
-      </BubbleBox>
-      <button onClick={Logout}>로그아웃</button>
-    </Section>
-  );
+            <BubbleBox>
+                {array.map((item: any) => {
+                    return item.state ? (
+                        <Link to={`/complete/${item.id}`} key={item.id}>
+                            <BubbleGreen />
+                        </Link>
+                    ) : (
+                        <Bubble onClick={bubbleCheck} />
+                    );
+                })}
+            </BubbleBox>
+            <button onClick={Logout}>로그아웃</button>
+        </Section>
+    );
 }
