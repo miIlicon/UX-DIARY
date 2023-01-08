@@ -21,11 +21,12 @@
   - ##### UPDATE (PUT)
   - ##### DELETE (DELETE)
 
-### 백엔드 스택 👏🏻
-- Spring Boot
-- JSON Library
-- Model Mapper
 
+### 백엔드 스택 👏🏻
+- ### Spring Boot
+  - ##### JSON.simple Library 
+  - ##### Model Mapper
+  - ##### JWT 
 
 ### 프론트엔드 스택 👏🏻
 - ### React
