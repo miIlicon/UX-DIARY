@@ -35,7 +35,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             return;
         }
 
-        setupData();
+        //setupData();
         alreadySetup = true;
     }
 

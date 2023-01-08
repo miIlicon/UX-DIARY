@@ -36,6 +36,7 @@ public class PostController {
 
 
         Post post = modelMapper.map(postDto, Post.class);
+
         postService.updatePost(post);
 
         return "success";
@@ -76,6 +77,7 @@ public class PostController {
 
         for (Post post : posts) {
             jsonPost.add(post);
+            System.out.println(post.getMonth());
         }
 
 

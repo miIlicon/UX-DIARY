@@ -37,7 +37,6 @@ public class PostServiceImpl implements PostService {
 
 
     }
-
     @Override
     public void createPost(Post post) {
         postRepository.save(post);
@@ -54,4 +53,6 @@ public class PostServiceImpl implements PostService {
         post.setState(false);
         postRepository.save(post);
     }
+
+
 }
