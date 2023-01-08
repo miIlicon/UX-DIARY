@@ -145,11 +145,27 @@ export default function Index() {
     const DateTime: Date = new Date();
     const _Year: number = DateTime.getFullYear();
     const _Month: number = DateTime.getMonth() + 1;
-    const array: Month | any[] | any = useMonth(_Month);
+    const array: Month | any = useMonth(_Month);
     const totalDate: number = new Date(_Year, _Month, 0).getDate();
     const totalBubble: object[] = [];
     const navigate = useNavigate();
     const [name, setName] = useState<string>("");
+
+    useEffect(() => {
+        if (localStorage.getItem("accessToken")) {
+            axios.get(`/user/name`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            })
+                .then((res) => {
+                    setName(() => {
+                        return res.data.name
+                    }
+                    )
+                })
+        }
+    }, [])
 
     for (let i = 1; i <= totalDate; i++) {
         totalBubble.push({ id: i, data: 0 });
@@ -166,18 +182,6 @@ export default function Index() {
             localStorage.removeItem("refreshToken");
         }
     }
-
-    useEffect(() => {
-        axios.get(`/user/name`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-            .then((res) => {
-                setName(res.data)
-            })
-    }, [])
-
 
     return (
         <Section>

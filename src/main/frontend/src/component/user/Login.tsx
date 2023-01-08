@@ -58,7 +58,7 @@ export default function Login() {
             })
             .catch((e) => {
                 console.log(e.response.data);
-                return "이메일 혹은 비밀번호를 확인하세요.";
+                alert("이메일 혹은 비밀번호를 확인하세요.");
             });
     }
 
@@ -74,7 +74,7 @@ export default function Login() {
                         <SubTitle>사용자 비밀번호</SubTitle>
                         <Input name="비밀번호" placeholder='사용할 비밀번호를 입력해주세요' value={pw} onChange={handleChange} />
                     </InputBox>
-                    <Button onClick={handleSubmit}>로그안</Button>
+                    <Button onClick={handleSubmit}>로그인</Button>
                 </SignUpArea>
             </Section>
         </>

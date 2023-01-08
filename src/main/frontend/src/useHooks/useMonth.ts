@@ -35,6 +35,8 @@ function useMonth(month: number): Month | any[] {
                 }
             })
             .then((res) => {
+                console.log(res);
+                console.log(res.data);
                 setBubble(() => {
                     return res.data
                 });
