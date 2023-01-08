@@ -11,6 +11,8 @@ import com.sy1.repository.PostRepository;
 import com.sy1.repository.specification.PostSpecification;
 import com.sy1.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -73,18 +75,29 @@ public class PostController {
         List<Post> posts = postService.getTodoPosts(member, month);
 
 
-        List<Post> jsonPost = new ArrayList<>();
+
+
+        JSONArray ja = new JSONArray();
+
 
         for (Post post : posts) {
-            jsonPost.add(post);
-            System.out.println(post.getMonth());
+            JSONObject obj = new JSONObject();
+            obj.put("id", post.getId());
+            obj.put("title", post.getTitle());
+            obj.put("content", post.getContent());
+            obj.put("feeling", post.getFeeling());
+            obj.put("state", post.getState());
+            obj.put("date", post.getDate());
+            obj.put("month", post.getMonth());
+            obj.put("memberId", post.getMember().getMemberId());
+            ja.add(obj);
         }
 
 
-        objectMapper.registerModule(new JavaTimeModule());
-        String s = objectMapper.writeValueAsString(jsonPost);
 
-        return s;
+
+
+        return ja.toString();
 
     }
 
