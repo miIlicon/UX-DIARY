@@ -215,7 +215,7 @@ export default function Create() {
                 feeling: emotion,
                 // month: array[_Date - 1].month,
                 date: array[_Date - 1].date,
-                // merberId: array[_Date - 1].memberId,
+                // memberId: array[_Date - 1].memberId,
                 state: true,
             }),
                 {
