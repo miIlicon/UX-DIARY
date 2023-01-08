@@ -75,14 +75,25 @@ public class PostController {
     }
 
     @GetMapping("post/getPostOfDay")
-    public String getPost(@RequestParam("id") String id_) throws JsonProcessingException {
+    public JSONObject getPost(@RequestParam("id") String id_) throws JsonProcessingException {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        Member member = memberRepository.findByEmail(name).orElse(null);
+
         long id = Long.parseLong(id_);
         Post post = postService.getPost(id);
 
-        objectMapper.registerModule(new JavaTimeModule());
-        String jsonString = objectMapper.writeValueAsString(post);
+        JSONObject obj = new JSONObject();
+        obj.put("id", post.getId());
+        obj.put("title", post.getTitle());
+        obj.put("content", post.getContent());
+        obj.put("feeling", post.getFeeling());
+        obj.put("state", post.getState());
+        obj.put("date", post.getDate());
+        obj.put("month", post.getMonth());
+        obj.put("memberId", post.getMember().getMemberId());
 
-        return jsonString;
+
+        return obj;
 
     }
 
