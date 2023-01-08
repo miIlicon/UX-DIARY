@@ -21,15 +21,19 @@
   - ##### UPDATE (PUT)
   - ##### DELETE (DELETE)
 
-##### 백엔드 스택
+### 백엔드 스택 👏🏻
 - Spring Boot
 - JSON Library
 - Model Mapper
 
 
-##### 프론트엔드 스택
-- ##### React.js
+### 프론트엔드 스택 👏🏻
+- ### React
+  - ##### Emotion.js
+  - ##### Redux
   - ##### Styled-components
-    - ##### 효율적인 컴포넌트 관리를 위해 Style-components를 사용했어요
+  - ##### react-cookie
+- ### HTTP
   - ##### Axios
-    - ##### 백엔드와의 JSON 통신을 위해 Axios 라이브러리를 사용했어요
+ 
+  
