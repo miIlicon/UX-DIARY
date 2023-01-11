@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @ToString(exclude = "member")
-@DynamicUpdate
 public class Post {
     @Id
     @GeneratedValue

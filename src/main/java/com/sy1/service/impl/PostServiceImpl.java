@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,20 +30,21 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(id).orElse(new Post());
     }
 
+    @Transactional
     @Override
     public List<Post> getTodoPosts(Member member, int month) {
         Specification<Post> spec = Specification.where(PostSpecification.equalMember(member));
         spec = spec.and(PostSpecification.equalMonth(month));
 
         return postRepository.findAll(spec);
-
-
     }
+    @Transactional
     @Override
     public void createPost(Post post) {
         postRepository.save(post);
     }
 
+    @Transactional
     @Override
     public void updatePost(PostDTO postDTO) {
         Post post = postRepository.findById(postDTO.getId()).orElse(null);
@@ -57,11 +59,11 @@ public class PostServiceImpl implements PostService {
         //postRepository.save(post);
     }
 
+    @Transactional
     @Override
     public void deletePost(long id) {
         Post post = postRepository.findById(id).orElse(new Post());
         post.setState(false);
-        postRepository.save(post);
     }
 
 

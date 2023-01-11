@@ -54,10 +54,9 @@ public class PostController {
 
     @GetMapping("post/getPostOfDay")
     public JSONObject getPost(@RequestParam("id") String id_) throws JsonProcessingException {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        Member member = memberRepository.findByEmail(name).orElse(null);
 
         long id = Long.parseLong(id_);
+
         Post post = postService.getPost(id);
 
         JSONObject obj = new JSONObject();
@@ -85,8 +84,6 @@ public class PostController {
         List<Post> posts = postService.getTodoPosts(member, month);
 
 
-
-
         JSONArray ja = new JSONArray();
 
 
@@ -112,9 +109,9 @@ public class PostController {
     }
 
     @PutMapping("post/delete")
-    public String deletePost(@RequestBody PostDTO postDTO) {
-
-        postService.updatePost(postDTO);
+    public String deletePost(@RequestParam("id") String id_) {
+        long id = Long.parseLong(id_);
+        postService.deletePost(id);
 
         return "success";
     }
