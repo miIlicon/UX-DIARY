@@ -4,6 +4,7 @@ package com.sy1.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @ToString(exclude = "member")
+@DynamicUpdate
 public class Post {
     @Id
     @GeneratedValue

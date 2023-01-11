@@ -1,5 +1,6 @@
 package com.sy1.service.impl;
 
+import com.sy1.dto.PostDTO;
 import com.sy1.entity.Member;
 import com.sy1.entity.Post;
 import com.sy1.repository.PostRepository;
@@ -43,8 +44,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(Post post) {
-        postRepository.save(post);
+    public void updatePost(PostDTO postDTO) {
+        Post post = postRepository.findById(postDTO.getId()).orElse(null);
+
+        post.setTitle(postDTO.getTitle());
+        post.setContent(postDTO.getContent());
+        post.setState(postDTO.getState());
+        post.setMonth(postDTO.getMonth());
+        post.setDate(postDTO.getDate());
+        post.setFeeling(postDTO.getFeeling());
+
+        //postRepository.save(post);
     }
 
     @Override

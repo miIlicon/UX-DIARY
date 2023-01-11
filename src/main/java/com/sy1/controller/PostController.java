@@ -34,42 +34,20 @@ public class PostController {
     private final ObjectMapper objectMapper;
     private final MemberRepository memberRepository;
     @PutMapping("post/register") // 기존 데이터에 덮어쓰기 때문에 update와 로직 동일
-    public String registerPost(@RequestBody PostDTO postDto) {
-        Post post = postRepository.findById(postDto.getId()).orElse(null);
+    public String registerPost(@RequestBody PostDTO postDTO) {
 
 
-        post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent());
-        post.setState(postDto.getState());
-        post.setMonth(postDto.getMonth());
-        post.setDate(postDto.getDate());
-        post.setFeeling(postDto.getFeeling());
-        Member member = memberRepository.findById(postDto.getMemberId());
-        post.setMember(member);
-
-
-        postService.updatePost(post);
+        postService.updatePost(postDTO);
 
         return "success";
     }
 
     @PutMapping("post/update")
-    public String updatePost(@RequestBody PostDTO postDto) {
-
-        Post post = postRepository.findById(postDto.getId()).orElse(null);
+    public String updatePost(@RequestBody PostDTO postDTO) {
 
 
-        post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent());
-        post.setState(postDto.getState());
-        post.setMonth(postDto.getMonth());
-        post.setDate(postDto.getDate());
-        post.setFeeling(postDto.getFeeling());
-        Member member = memberRepository.findById(postDto.getMemberId());
-        post.setMember(member);
 
-
-        postService.updatePost(post);
+        postService.updatePost(postDTO);
 
         return "success";
     }
@@ -134,22 +112,9 @@ public class PostController {
     }
 
     @PutMapping("post/delete")
-    public String deletePost(@RequestBody PostDTO postDto) {
+    public String deletePost(@RequestBody PostDTO postDTO) {
 
-        Post post = postRepository.findById(postDto.getId()).orElse(null);
-
-
-        post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent());
-        post.setState(postDto.getState());
-        post.setMonth(postDto.getMonth());
-        post.setDate(postDto.getDate());
-        post.setFeeling(postDto.getFeeling());
-        Member member = memberRepository.findById(postDto.getMemberId());
-        post.setMember(member);
-
-
-        postService.updatePost(post);
+        postService.updatePost(postDTO);
 
         return "success";
     }

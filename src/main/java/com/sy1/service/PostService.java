@@ -1,5 +1,6 @@
 package com.sy1.service;
 
+import com.sy1.dto.PostDTO;
 import com.sy1.entity.Member;
 import com.sy1.entity.Post;
 
@@ -12,7 +13,7 @@ public interface PostService {
 
     void createPost(Post post);
 
-    void updatePost(Post post);
+    void updatePost(PostDTO postDTO);
 
     void deletePost(long id);
 }
